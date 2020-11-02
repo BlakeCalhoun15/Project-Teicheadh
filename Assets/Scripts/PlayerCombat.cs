@@ -10,16 +10,23 @@ public class PlayerCombat : MonoBehaviour
 
     public float attackRange = 0.5f;
     public int attackDamage = 40;
+    public float attackRate = 2f;
+    public float nextAttackTime = 0f;
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update()
     {
-        if (Input.GetButtonDown("WeaponAttack"))
+        if (Time.time >= nextAttackTime)
         {
-            Attack();
+            if (Input.GetButtonDown("WeaponAttack"))
+            {
+                Attack();
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
         }
+        
     }
 
     /// <summary>

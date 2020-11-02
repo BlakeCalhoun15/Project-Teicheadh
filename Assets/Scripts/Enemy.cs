@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator animator;
-
+    public GameObject currentObject;
     public int maxHealth = 100;
     int currentHealth;
 
@@ -20,11 +20,15 @@ public class Enemy : MonoBehaviour
         currentHealth -= damage;
         
         // play hurt animation
-        animator.pla
+        animator.SetTrigger("Hurt");
 
         if(currentHealth <= 0)
         {
+            // play animations
             Die();
+
+            // remove current object from scene
+            Destroy(currentObject);
         }
     }
 
@@ -33,7 +37,10 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enemy is dead...");
 
         // die animation
-        
+        animator.SetBool("IsDead", true);
+
         // disable the enemy
+        GetComponent<Collider2D>().enabled = false;
+        this.enabled = false;
     }
 }
