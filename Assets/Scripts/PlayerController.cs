@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private Rigidbody2D rb;
+    public Animator animator;
+
+    public int maxHealth = 100;
+    private int currentHealth;
+
     public float speed;
     private float moveInput;
     public bool isGrounded;
     private bool facingRight = true;
     public float jumpHeight;
-    private Rigidbody2D rb;
-    public Animator animator;
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -19,6 +23,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        currentHealth = maxHealth;
     }
 
     /// <summary>
@@ -55,6 +61,26 @@ public class PlayerController : MonoBehaviour
 
         // moving the player based on moveInput
         rb.velocity = new Vector2(moveInput, rb.velocity.y);
+    }
+
+    ///<Summary>
+    /// This funciton is called whenever the player needs to take damage from the enemy
+    ///<Summary>
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        
+        // play hurt animation
+        //animator.SetTrigger("Hurt");
+
+        if(currentHealth <= 0)
+        {
+            // play animations
+            //Die();
+
+            // remove current object from scene
+            //Destroy(currentEnemyObject);
+        }
     }
 
     /// <summary>
