@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Grounded : MonoBehaviour
 {
-    GameObject Player;
+    GameObject player;
     
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -12,7 +12,7 @@ public class Grounded : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Player = gameObject;
+        player = gameObject;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class Grounded : MonoBehaviour
     {
         if (collision.collider.tag == "Ground" || collision.collider.tag == "Platform")
         {
-            Player.GetComponent<PlayerController>().isGrounded = true;
+            player.GetComponent<PlayerController>().isGrounded = true;
         }
     }
 
@@ -45,7 +45,7 @@ public class Grounded : MonoBehaviour
     {
         if (collision.collider.tag == "Ground" || collision.collider.tag == "Platform")
         {
-            Player.GetComponent<PlayerController>().isGrounded = false;
+            player.GetComponent<PlayerController>().isGrounded = false;
         }
     }
 }

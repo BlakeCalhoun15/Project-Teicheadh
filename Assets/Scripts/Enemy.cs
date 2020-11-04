@@ -5,7 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Animator animator;
-    public GameObject currentObject;
+    private GameObject currentEnemyObject;
+    private GameObject player;
     private Rigidbody2D rb;
     
     public int maxHealth = 100;
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
+        currentEnemyObject = gameObject;
+
         currentHealth = maxHealth;
     }
 
@@ -40,6 +43,10 @@ public class Enemy : MonoBehaviour
         if (!inRange)
         {
             MoveToNextPoint();
+        }
+        else
+        {
+            FollowPlayer();
         }
     }
 
@@ -78,6 +85,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void FollowPlayer()
+    {
+        // flip enemy transform
+        if (player.transform.position.x > transform.position.x)
+        {
+            transform.localScale = new Vector3(1,1,1);
+        }
+        else transform.localScale = new Vector3(-1,1,1);
+
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
+    }
+
     /// <summary>
     /// Sent when another object enters a trigger collider attached to this
     /// object (2D physics only).
@@ -85,7 +104,24 @@ public class Enemy : MonoBehaviour
     /// <param name="collision">The other Collider2D involved in this collision.</param>
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.tag == "Player")
+        {
+            inRange = true;
+            player = collision.gameObject;
+        }
+    }
+
+    /// <summary>
+    /// Sent when another object exits a trigger collider attached to this
+    /// object (2D physics only).
+    /// </summary>
+    /// <param name="collision">The other Collider2D involved in this collision.</param>
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            inRange = false;
+        }
     }
 
     ///<Summary>
@@ -104,7 +140,7 @@ public class Enemy : MonoBehaviour
             Die();
 
             // remove current object from scene
-            Destroy(currentObject);
+            Destroy(currentEnemyObject);
         }
     }
 
