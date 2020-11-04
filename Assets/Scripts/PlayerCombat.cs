@@ -42,7 +42,10 @@ public class PlayerCombat : MonoBehaviour
         // damage enemies
         foreach (var enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            if (enemy.TryGetComponent(out Enemy currentEnemy))
+            {
+                currentEnemy.TakeDamage(attackDamage);
+            }
         }
     }
 
