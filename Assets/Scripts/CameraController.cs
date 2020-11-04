@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
+            //probably need to add a call to Destroy() here so that we get rid of objects that are out of sight of the camera
         }
     }
 }
