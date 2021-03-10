@@ -14,6 +14,7 @@ public class EnemyCombat : MonoBehaviour
     public float attackRate = 3f;
     float nextAttackTime = 0f;
     public bool inRangeForCombat = false;
+    public bool isAttacking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,8 @@ public class EnemyCombat : MonoBehaviour
     {
         // play attack animation
         // animator.SetTrigger("Attack");
+
+        isAttacking = true;
 
         // detect player in range of attack
         Collider2D hitPlayer = Physics2D.OverlapCircle(attackPoint.position,attackRange,playerLayer);

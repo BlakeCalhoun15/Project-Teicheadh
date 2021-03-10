@@ -8,13 +8,14 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     public int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
 
     public float speed;
     private float moveInput;
     public bool isGrounded;
     private bool facingRight = true;
     public float jumpHeight;
+    public bool isDead = false;
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -33,6 +34,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Jump();
+
+        // If the player is dead, we will stop the game.
+        if(isDead)
+        {
+            Time.timeScale = 0;
+        }
+        
     }
 
     /// <summary>
@@ -71,16 +79,30 @@ public class PlayerController : MonoBehaviour
         currentHealth -= damage;
         
         // play hurt animation
-        //animator.SetTrigger("Hurt");
+        animator.SetTrigger("Hurt");
 
         if(currentHealth <= 0)
         {
             // play animations
-            //Die();
+            Die();
 
-            // remove current object from scene
-            //Destroy(currentEnemyObject);
+            isDead = true;
+            // When the player dies, the game will pause
+            // this is a placeholder for now, desired outcome of player death -> the game will show a GAME OVER screen, with a menu for options on what to do.
         }
+    }
+
+    ///<Summary>
+    /// This funciton is called once the player's health is <= 0
+    ///<Summary>
+    void Die()
+    {
+        // die animation
+        animator.SetBool("IsDead", true);
+
+        // disable the player
+        // GetComponent<Collider2D>().enabled = false;
+        // this.enabled = false;
     }
 
     /// <summary>
